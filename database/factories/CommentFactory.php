@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CommentFactory extends Factory
 {
+    private static ?array $userIds = null;
+    private static ?array $articleIds = null;
+
     /**
      * Define the model's default state.
      *
@@ -17,10 +20,18 @@ class CommentFactory extends Factory
      */
     public function definition(): array
     {
+        // Lazy load IDs cache (static to persist across all instances)
+        if (self::$userIds === null) {
+            self::$userIds = \App\Models\User::pluck('id')->toArray();
+        }
+        if (self::$articleIds === null) {
+            self::$articleIds = \App\Models\Article::pluck('id')->toArray();
+        }
+
         return [
             'comment' => fake()->sentence(),
-            'user_id' => \App\Models\User::inRandomOrder()->first()->id,
-            'article_id' => \App\Models\Article::inRandomOrder()->first()->id,
+            'user_id' => self::$userIds[array_rand(self::$userIds)],
+            'article_id' => self::$articleIds[array_rand(self::$articleIds)],
         ];
     }
 }

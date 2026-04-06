@@ -17,10 +17,17 @@ class ArticleFactory extends Factory
      */
     public function definition(): array
     {
+        // Lazy load user IDs cache
+        if (!isset($this->userIds)) {
+            $this->userIds = \App\Models\User::pluck('id')->toArray();
+        }
+
         return [
             'title' => fake()->sentence(),
             'content' => fake()->paragraph(),
-            'user_id' => \App\Models\User::inRandomOrder()->first()->id,
+            'user_id' => $this->userIds[array_rand($this->userIds)],
         ];
     }
+
+    private ?array $userIds = null;
 }
