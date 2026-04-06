@@ -21,10 +21,10 @@ class BlogSeeder extends Seeder
         \App\Models\User::truncate();
 
         // Create data with better performance
-        \App\Models\User::factory(1000)->create();  // Reduced from 1000
-        \App\Models\Tag::factory(1000)->create();
-        \App\Models\Article::factory(1000)->create();  // Reduced from 5000
-        \App\Models\Comment::factory(1000)->create();  // Reduced from 10000
+        \App\Models\User::factory(10000)->create();  // Reduced from 1000
+        \App\Models\Tag::factory(10000)->create();
+        \App\Models\Article::factory(10000)->create();  // Reduced from 5000
+        \App\Models\Comment::factory(10000)->create();  // Reduced from 10000
 
         // Re-enable foreign key checks
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
